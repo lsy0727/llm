@@ -1,0 +1,17 @@
+[project]
+name = "chroma"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "chromadb>=1.0.15",
+    "langchain>=0.3.26",
+    "langchain-community>=0.3.27",
+    "langchain-huggingface>=0.3.0",
+    "ollama>=0.5.1",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.1",
+    "pdfplumber>=0.11.7",
+    "sentence-transformers>=5.0.0",
+]
