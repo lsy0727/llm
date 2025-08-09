@@ -9,7 +9,8 @@ import time
 # from glob import glob
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import SentenceTransformerEmbeddings
+# from langchain_community.embeddings import SentenceTransformerEmbeddings  # 더이상 사용되지 않음
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_core.runnables import Runnable
 from langchain.chains import RetrievalQA
@@ -111,7 +112,7 @@ def setup_vector_db_from_pdfs(folder_path):
     splitter = RecursiveCharacterTextSplitter(chunk_size=c_size, chunk_overlap=c_overlab)
     chunks = splitter.split_documents(all_documents)
 
-    embedding = SentenceTransformerEmbeddings(
+    embedding = HuggingFaceEmbeddings(
         model_name="BAAI/bge-m3",
         model_kwargs={"device": "cuda"}
     )
@@ -121,7 +122,6 @@ def setup_vector_db_from_pdfs(folder_path):
         vectordb = Chroma(persist_directory="./file_db", embedding_function=embedding)
     else:
         vectordb = Chroma.from_documents(documents=chunks, embedding=embedding, persist_directory="./file_db")
-    # vectordb = Chroma.from_documents(documents=chunks, embedding=embedding, persist_directory="./file_db")
 
     llm = Ollama(model="gemma3:12b")
     retriever = vectordb.as_retriever(search_type="mmr", search_kwargs={"k": 5})
